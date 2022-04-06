@@ -21,7 +21,7 @@ def merge_stacks(s1, top1, s2, top2):
     new_top = -1
 
     while(top1 != -1 and top2 != -1):
-        if s1[top1] < s2[top2]:
+        if s1[top1] > s2[top2]:
             new_stack.append(s1[top1])
             top1 -= 1
         else:

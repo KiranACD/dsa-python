@@ -21,3 +21,5 @@ for _ in range(n):
     
 print(''.join(stack))
 
+# Remove all duplicates
+# Remove k duplicates

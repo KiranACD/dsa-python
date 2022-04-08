@@ -3,11 +3,14 @@
 
 # Approach 1: Sort the array and compare with original array to get s and e of subarray.
 
+# Approach 2:
+
 from enterarray import enter_array
 
 def get_subarray(arr):
     
     n = len(arr)
+
     small = 10**9
     for _ in range(1, n):
         if arr[_] < arr[_-1]:

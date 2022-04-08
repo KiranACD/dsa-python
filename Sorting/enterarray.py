@@ -6,3 +6,6 @@ def enter_array():
     arr = list(map(lambda x: int(x), arr))
 
     return arr
+
+if __name__ == '__main__':
+    pass

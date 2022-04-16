@@ -1,5 +1,8 @@
 # Nearest smaller element
 # For every i, find the nearest element on the left side of i which is smaller than A[i]
+# Implement to return the index
+# Implement to get the distance from the nearest smaller element.
+# Max rectangle area of a histogram
 import sys
 sys.path.append('/home/kiran/dsa-python/Sorting')
 from enterarray import enter_array

@@ -19,7 +19,7 @@ class BuildTree:
             self.map[self.inorder[_]] = _
 
     def build_tree(self, s_pre, e_pre, s_in, e_in):        
-        if s_in <= e_in:
+        if s_in > e_in:
             return None
         
         root = Node(self.preorder[s_pre])
@@ -30,7 +30,7 @@ class BuildTree:
         return root
     
     def get_root(self):
-        self.get_inorder_map
+        self.get_inorder_map()
         self.root = self.build_tree(0, self.num_nodes-1, 0, self.num_nodes-1)
 
     

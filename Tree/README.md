@@ -148,6 +148,10 @@ def num_nodes(root):
 
 First element of a preorder array will be the root of the tree. Find the position of the root value in the inroder array. Elements to the left of the position in the inorder array will be elements that constitute the left tree and elements to the right of the position in the inorder array will be elements that constitire the right tree. Get the root of all subtrees recursively and finally return the root of the fully constructed tree.
 
+## Build binary tree using postorder and inorder traversal arrays
+
+The approach is the same as above, except we iterate from the back of the postorder array as that is where the root is present.
+
 
 
 

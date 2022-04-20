@@ -104,6 +104,15 @@ def search(root, k):
 
 ### InOrder
     - Visit left, root, right
+```
+def inorder(root):
+    if root is None:
+        return
+    inorder(root.left)
+    print(root.val)
+    inorder(root.right)
+```
+Most problems in binary tree are solved using preOrder or postOrder traversal. InOrder traversal is useful when dealing with binary search trees or when there is a specific order present.
 
 ### PostOrder
 

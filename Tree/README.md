@@ -75,7 +75,7 @@ The convention is that the left child will be visited before the right node.
 
 How many ways to traverse a tree? 3 - PreOrder, InOrder, PostOrder
 
-# PreOrder
+### PreOrder
 
 Visit root, left, right
 ```
@@ -102,10 +102,10 @@ def search(root, k):
     return search(root.left, k) or search(root.right, k) # Makes use of boolean short circuting
 ```
 
-# InOrder
+### InOrder
     - Visit left, root, right
 
-# PostOrder
+### PostOrder
 
 Visit left, right, root
 ```

@@ -14,7 +14,7 @@ class Solution:
             bst(node.right)
             
             Solution.node_sum +=  node.val
-            node.val = Solution.node_sum
+            node.val = Solution.node_sums
             
             bst(node.left)
 

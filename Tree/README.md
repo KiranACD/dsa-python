@@ -80,15 +80,43 @@ How many ways to traverse a tree? 3 - PreOrder, InOrder, PostOrder
 Visit root, left, right
 ```
 def preorder(root):
+    if root is None:
+        return
 
-    print()
+    print(root.val)
+    preorder(root.left)
+    preorder(root.right)
 ```
+This is a depth first search. This algorithm can be used in an application that requires a fail fast approach. For e.g., Given 2 trees, check if they are identical. If the root value does not match, then we can return False. PreOrder helps us here as we check the root node first and then traverse to the sub trees. If the root nodes dont match, we reach our answer faster.
+
+TC : O(N)
+SC : O(N) - Order of height of the tree, because we use the recursion stack. In the worst case scenario, all the nodes will be on one side of the tree.
 
 2. InOrder
     - Visit left, root, right
 
 3. PostOrder
-    - Visit left, right, root
+
+Visit left, right, root
+```
+def postorder(root):
+    if root is None:
+        return
+
+    postorder(root.left)
+    postorder(root.right)
+    print(root.val)
+```
+This is a depth first search. Flow of control is from the bottom to the top because we are using recursion. This is different from the preorder traversal where data is processed from top to bottom.  
+
+Postorder is handy when we need to use data from the left and right side of a node. For e.g., given a tree, return its height. 
+```
+def height(root):
+    if root is None:
+        return -1
+    return max(height(root.left), height(root.right)) + 1
+```
+
 
 
 

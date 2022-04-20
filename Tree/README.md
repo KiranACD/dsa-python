@@ -76,13 +76,13 @@ The convention is that the left child will be visited before the right node.
 How many ways to traverse a tree? 3 - PreOrder, InOrder, PostOrder
 
 1. PreOrder
-- Visit root, left, right
+    - Visit root, left, right
 
 2. InOrder
-- Visit left, root, right
+    - Visit left, root, right
 
 3. PostOrder
-- Visit left, right, root
+    - Visit left, right, root
 
 
 

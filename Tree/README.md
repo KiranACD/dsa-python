@@ -77,6 +77,11 @@ How many ways to traverse a tree? 3 - PreOrder, InOrder, PostOrder
 
 1. PreOrder
     - Visit root, left, right
+    - ```
+    def preorder(root):
+
+        print()
+    ```
 
 2. InOrder
     - Visit left, root, right

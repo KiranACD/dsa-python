@@ -196,14 +196,80 @@ Return a list of lists where each list consists of values of the nodes of each l
 - Approach 1
 Combine the level of the node with the node while appending to the queue. This way we can start a new list when we detect level change.
 
+TC: O(N)
+SC: O(width of the tree) + Level being added = O(N)
+
 - Approach 2
 Append Nonetype object to the queue each time we pop out a Nonetype object. When a Nonetype object is popped, start a new list.
 
-TC: O(N)
+TC: O(N) + O(logN)
 SC: O(width of the tree)
 
+- Approach 3
+Keep track of the size of queue. When first node in queue, number of pops needed to get to the next level is equal to 1, which is also the size of the queue. When one pop is done, we record the size of the queue again. In this case, it is going to be 2 nodes. Once 2 pops are done, record the size of the queue again.
 
+```
+def level_order(root):
+    if root is None:
+        return None
+    
+    ans = []
+    q = deque()
+    q.append(root)
+    while (q):
+        level = []
+        size = len(q)
+        for i in range(n):
+            node = q.popleft()
+            level.append(node.val)
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+        ans.append(level)
+    
+    return ans
+```
 
+### Vericial Order Traversal
+
+                                       9         Output: [[7],
+                                      / \                 [2, 14],
+                                     /   \                [6, 11, 5],
+                                    6     4               [9, 3, 8],
+                                   / \   / \              [4, 12],
+                                  /   \ /   \             [1]]
+                                 2    3 8    1
+                                / \  /      /
+                               /   \/      / 
+                              7  11  5    12
+                               \
+                                \
+                                14
+
+Use a hashmap with keys as the distance of each node from the root node. Then when we move to the left, we decrement the distance by 1. When we move to the right, we increment the distance by 1.
+
+We cannot do this using a depth first search. We have to use level order traversal
+```
+TreeInfo = collections.namedtuple('TreeInfo', 'node dist')
+
+hmap = default_dict(list)
+node = root
+q = deque()
+q.append(TreeInfo(node, 0))
+min_dist = 0
+max_dist = 0
+while q:
+    node_info = q.popleft()
+    min_dist = min(min_dist, node_info.dist)
+    max_dist = max(max_dist, node_info.dist)
+    hmap[node_info.dist].append(node_info.node.value)
+    if node_info.node.left is not None:
+        q.append(TreeInfo(node_info.node.left, node_info.dist - 1))
+    if node_info.node.right is not None:
+        q.append(TreeInfo(node_info.node.right, node_info.dist + 1))
+```
+    
 ## Build binary tree using preorder and inorder traversal arrays
 
 First element of a preorder array will be the root of the tree. Find the position of the root value in the inroder array. Elements to the left of the position in the inorder array will be elements that constitute the left tree and elements to the right of the position in the inorder array will be elements that constitire the right tree. Get the root of all subtrees recursively and finally return the root of the fully constructed tree.
@@ -241,5 +307,22 @@ while (node is not None or len(stack) != 0):
         node = node.right
 ```
 
+## Print the left view of a tree
 
+Print the first element of each level. Approach is similar to the one where we return the list of lists of each level.
 
+## Print the right view of a tree
+
+Just like the above, but we are printing the last element of each level.
+
+## Print the top view of a tree
+
+Use the vertical order traversal and print the first element of the list generated there. You dont need to append any value to the list where the key is already present.
+
+## Print the bottom view of a tree
+
+Edge case of 2 values in the same level and the same distance away from the root.
+
+## Print the boundary of a tree
+
+Take care of the edge case where some nodes will be repeated.

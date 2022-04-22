@@ -68,6 +68,31 @@ class Node:
         self.val = val
         self.children = [None for _ in range(n)]
 ```
+## Complete Binary Tree
+
+A binary tree where all levels of the tree are completely filled, except possibly the last level. In case, the last level is not completely filled, they have to be left aligned.
+
+The number of nodes in a complete binary tree can be expressed as:
+
+2^0 + 2^1 + 2^2 + 2^3 + ... + 2^h = N
+
+a = 2^0
+r = 2
+n = h+1
+
+LHS can be written as:
+
+(2^(h+1) - 1)/(2 - 1) = N
+
+h = log(N+1) -1
+
+Number of nodes in the last level, n = 2^h
+
+n = 2^(log(N+1) - 1)
+
+n = (2^log(N+1)) / 2
+
+n = (N + 1) / 2
 
 ## Tree Traversals
 
@@ -136,13 +161,48 @@ def height(root):
         return -1 # Height of Null node is -1
     return max(height(root.left), height(root.right)) + 1
 ```
-Gien a tree, count number of nodes of a tree
+Given a tree, count number of nodes of a tree
 ```
 def num_nodes(root):
     if root is None:
         return 0
     return num_nodes(root.left) + num_node(root.right) + 1
 ```
+Using this traversal, we can find max node value, sum of all node values and other problems like these.
+
+### Level Order Traversal
+
+We have to use a queue here. We print the value of the root node first and insert its children into the queue. Then `popleft()` from the queue and print its value and insert its children into the queue.
+
+Continue this operation till the queue is empty.
+```
+q = deque()
+node = root
+print(node.val)
+if node.left:
+    q.append(node.left)
+if node.right:
+    q.append(node.right)
+while (q):
+    node = q.popleft()
+    print(node.val)
+    if node.left:
+        q.append(node.left)
+    if node.right:
+        q.append(node.right)
+```
+Return a list of lists where each list consists of values of the nodes of each level of the tree
+
+- Approach 1
+Combine the level of the node with the node while appending to the queue. This way we can start a new list when we detect level change.
+
+- Approach 2
+Append Nonetype object to the queue each time we pop out a Nonetype object. When a Nonetype object is popped, start a new list.
+
+TC: O(N)
+SC: O(width of the tree)
+
+
 
 ## Build binary tree using preorder and inorder traversal arrays
 
@@ -152,6 +212,34 @@ First element of a preorder array will be the root of the tree. Find the positio
 
 The approach is the same as above, except we iterate from the back of the postorder array as that is where the root is present.
 
+## Return inorder traversal array without using recursion
+
+Use a stack to store the nodes as we traverse the array.
+```
+while (node is not None or len(stack) != 0):
+    if node is not None:
+        stack.append(node)
+        node = node.left
+    else:
+        node = stack.pop()
+        ans.append(node.value)
+        node = node.right
+```
+
+## Return postorder traversal array without using recursion
+
+What changes in this case, is where you append the values of the node.
+
+```
+while (node is not None or len(stack) != 0):
+    if node is not None:
+        stack.append(node)
+        ans.append(node.value)
+        node = node.left
+    else:
+        node = stack.pop()
+        node = node.right
+```
 
 
 

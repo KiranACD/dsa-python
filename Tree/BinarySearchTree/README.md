@@ -136,3 +136,17 @@ def trim(node):
 ```
 TC: O(N)
 SC: O(N)
+
+## Given a binary tree, return True if it is a BST.
+
+Assume no duplicates. Solve using all three traversals
+
+Approach 1: Preorder traversal
+```
+def isBst(root, lower, upper):
+    if root is None:
+        return True
+    return ((lower < root.val < upper) 
+            and isBst(root.left, lower, root.val)
+            and isBst(root.right, root.val, upper)
+```

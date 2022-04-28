@@ -150,3 +150,119 @@ def isBst(root, lower, upper):
             and isBst(root.left, lower, root.val)
             and isBst(root.right, root.val, upper)
 ```
+Edge cases are if the root value itself is INT_MAX or INT_MIN. If a node is INT_MAX and the right subtree is not None, then the tree cannot be a BST. However if duplicates are allowed, send None as lower and upper. Perform the comparison, only if the node is not none.
+
+Approach 2: Inorder traversal
+Inorder traversal of_ BST will always return a sorted array.
+TC: O(N)
+SC: O(N)
+
+Approach 3: Postorder traversal
+Information needed for each node: Max from left sub tree and min from right sub tree. if lst is a BST and if rst is a BST
+
+In this case return will be an object. Lets use a named tuple.
+```
+from collections import namedtuple
+
+TreeInfo = namedtuple('TreeInfo', 'min max is_bst')
+
+def isBST(root):
+    if root is None:
+        return TreeInfo(INT_MAX, INT_MIN, True)
+    left = isBST(root.left)
+    right = isBST(root.right)
+
+    if (left.is_bst and right.is_bst and root.val>left.max and root.val<right.min):
+        return TreeInfo(min(root.val, left.min, right.min), max(root.val, left.max, right.max), True)
+    else:
+        return TreeInfo(min(root.val, left.min, right.min), max(root.val, left.max, right.max), False)
+```
+
+## Given a BT, return the size of max BST sub-tree inside the BT.
+
+```
+                            5
+                           / \
+                          2   4
+                         / \ 
+                        1   3 
+```
+The subtree rooted at 2 is the max BST. So the answer is 3.
+
+Approach:
+The root node needs to know the max size BST subtree on left side, the max size BST subtree on the right side and whether the tree from the current node itself is a BST.
+```
+from collections import namedtuple
+
+TreeInfo = namedtuple('TreeInfo', 'max min is_bst max_bst curr_size')
+
+def maxBST(root):
+    if root is None:
+        return TreeInfo(INT_MIN, INT_MAX, True, 0, 0)
+
+    left = maxBST(root.left)
+    right = maxBST(root.right)
+
+    if (left.is_bst and right.is_bst and root.val < right.min and root.val > left.max):
+        return TreeInfo(right.max, 
+                        left.min, 
+                        False, 
+                        right.curr_size + left.curr_size + 1,
+                        right.curr_size + left.curr_size + 1)
+    else:
+        return TreeInfo(max(root.val, left.max, right.max),
+                        min(root.val, left.min, right.min),
+                        False,
+                        max(left.max_bst, right.max_bst),
+                        right.curr_size + left.curr_size + 1)
+```
+
+## Given a BST where two nodes have been swapped. Fix it.
+
+Approach:
+
+Do an inorder traversal of the tree and append all nodes into a list. Then find the nodes where there is a violation of the sorted order. In the first occurence of this, the first node is the incorrect node and in the second occurence of this, the second node is the incorrect node. In case of two adjacent swapped nodes, there will be only one occurence of violation of the sorted order. In this case the two nodes are the swapped nodes.
+```
+lst = []
+
+def inorder(root):
+    if root is None:
+        return
+    inorder(root.left)
+    lst.append(root)
+    inorder(root.right)
+
+ans = []
+for _ in range(1, len(lst)):
+    if lst[_].val < lst[_-1].val:
+        lst.append(lst[_-1])
+        lst.append(lst[_])
+
+n1 = ans[0]
+n2 = ans[-1]
+```
+Approach 2:
+
+This can be done with constant space. We just have to maintain the prev node we travelled to.
+```
+n1 = None
+n2 = None
+prev = None
+
+def inorder(root):
+    if root is None:
+        return
+    
+    inorder(root.left)
+    if prev is not None:
+        if root.val < prev.val:
+            if n1 is None:
+                n1 = prev
+                n2 = root
+            else:
+                n2 = root
+    prev = root
+    inorder(root.right)
+```
+
+            

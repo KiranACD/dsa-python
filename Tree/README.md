@@ -326,3 +326,83 @@ Edge case of 2 values in the same level and the same distance away from the root
 ## Print the boundary of a tree
 
 Take care of the edge case where some nodes will be repeated.
+
+## Find the LCA of two nodes n1, n2
+
+Approach 1:
+```
+def lca(root, n1, n2):
+    if root is None:
+        return None
+    if root == n1 or root == n2:
+        return root
+    found_n1 = find(root.left, n1)
+    found_n2 = find(root.left, n2)
+
+    if (found_n1 and found_n2):
+        return lca(root.left, n1, n2)
+    if (found_n1 or found_n2):
+        return root
+    else:
+        return lca(root.right, n1, n2)
+```
+TC: O(N^2) - Every iteration we make a call to find() which has a TC of O(N)
+SC: O(N)
+
+Approach 2:
+```
+def lca(root, n1, n2):
+    if root is None:
+        return None
+    
+    if root == n1 or root == n2:
+        return root
+    
+    l_lca = lca(root.left, n1, n2)
+    r_lca = lca(root.right, n1, n2)
+
+    if (l_lca is not None) and (r_lca is not None):
+        return root
+    elif l_lca is None:
+        return r_lca
+    else:
+        return l_lca
+```
+TC: O(N)
+SC: O(N)
+
+This approach works only when two nodes are present in the tree.
+
+## Given a BT, find the diameter of the tree
+
+Diameter is the longest path between two node in a tree.
+
+Approach 1:
+
+def diameter(root):
+    if root is None:
+        return -1
+    lh = height(root.left)
+    rh = height(root.right)
+    ld = diameter(root.left)
+    rd = diameter(root.right)
+
+    return max(ld, rd, (lh+rh+2))
+```
+TC: O(N^2)
+SC: O(N)
+
+Approach 2:
+
+from collections import namedtuple
+TreeInfo = namedtuple('TreeInfo', 'height diameter')
+def diameter(root):
+    if root is None:
+        return TreeInfo(-1, 0)
+
+    left = diameter(root.left)
+    right = diameter(root.right)
+
+    h = max(left.height, right.height) + 1
+    d = max((left.height+right.height + 2), left.diameter, right.diameter)
+    return TreeInfo(h, d)

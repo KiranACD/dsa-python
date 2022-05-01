@@ -378,7 +378,7 @@ This approach works only when two nodes are present in the tree.
 Diameter is the longest path between two node in a tree.
 
 Approach 1:
-
+```
 def diameter(root):
     if root is None:
         return -1
@@ -393,16 +393,81 @@ TC: O(N^2)
 SC: O(N)
 
 Approach 2:
-
+```
 from collections import namedtuple
-TreeInfo = namedtuple('TreeInfo', 'height diameter')
+TreeInfo = namedtuple('TreeInfo', 'height diameter max_diameter')
 def diameter(root):
     if root is None:
-        return TreeInfo(-1, 0)
+        return TreeInfo(-1, 0, 0)
 
     left = diameter(root.left)
     right = diameter(root.right)
 
     h = max(left.height, right.height) + 1
-    d = max((left.height+right.height + 2), left.diameter, right.diameter)
-    return TreeInfo(h, d)
+    d = (left.height+right.height + 2)
+    max_d = max(d, left.diameter, right.diameter)
+    return TreeInfo(h, d, max_d)
+```
+TC: O(N)
+SC: O(N)
+
+## Given a BT, check whether it s height balanced
+
+Approach 1:
+```
+def is_balanced(root):
+    if root is None:
+        return True
+    lh = height(root.left)
+    rh = height(root.right)
+
+    if abs(lh-rh) > 1:
+        return False
+    
+    return is_balanced(root.left) and is_balanced(root.right)
+```
+TC: O(N^2)
+SC: O(N)
+
+Approach 2:
+```
+from collections import namedtuple
+
+TreeInfo = namedtuple('TreeInfo', 'is_bal height')
+def is_balanced(root):
+    if root is None:
+        return TreeInfo(True, -1)
+    left = is_balanced(root.left)
+    right = is_balanced(root.right)
+
+    is_bal = left.is_bal and right.is_bal and (abs(left.height-right.height) <= 1)
+    h = max(left.height, right.height) + 1
+    return TreeInfo(is_bal, h)
+```
+TC: O(N)
+SC: O(N)
+
+## Morris Inorder Traversal of a tree
+
+Traversal of a tree without using extra space
+```
+while curr_node is not None:
+    if curr_node.left is None:
+        print(curr_node.val)
+        curr_node = curr_node.right
+    else:
+        temp = curr_node.left
+        while (temp.right is not None and temp.right is not curr_node):
+            temp = temp.right
+        if temp.right is None:
+            temp.right = curr_node
+            curr_node = curr_node.left
+        else:
+            temp.right = None
+            print(curr_node.val)
+            curr_node = curr_node.right
+```
+if we cannot modify the structure of a tree, then there is no way to traverse a tree without using extra space.
+
+TC: O(N)
+SC: O(1)

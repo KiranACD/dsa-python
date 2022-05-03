@@ -139,8 +139,7 @@ def prob2(A, B, C):
     
     tree = get_dist(A)
     return tree.d
-        
-
+    
 def print_inorder(root):
     if root is None:
         return

@@ -469,5 +469,66 @@ while curr_node is not None:
 ```
 if we cannot modify the structure of a tree, then there is no way to traverse a tree without using extra space.
 
+TC: O(N) - Every node is visited atmost 3 times
+SC: O(1)
+
+How can we implement Pre and post order traversal using this approach
+
+## A binary has nodes that has a next pointer along with left and right pointer. Initially they are pointing to Null. Populate them by pointing them to the node on the right side.
+
+Use level order traversal
+```
+level = root
+while level is not None:
+    curr = level
+    while curr is not None:
+        if curr.left is not None:
+            if curr.right is not None:
+                curr.left.next = curr.right
+            else:
+                curr.left.next = get_next_right(curr)
+
+        if curr.right is no None:
+            curr.right.next = get_next_right(curr)
+    
+    if level.left is not None:
+        level = level.left
+    elif level.right is not None:
+        level = level.right
+    else:
+        level = get_next_right(level)
+    #while True:
+    #    if level.left is not None:
+    #        level = level.left
+    #        break
+    #    elif level.right is not None:
+    #        level = level.right
+    #        break
+    #    elif level.next is not None:
+    #        level = level.next
+    #    else:
+    #        level = None
+    #        break
+
+def get_next_right(root):
+    if root is None:
+        return None
+    temp = root.next
+    while temp is not None:
+        if temp.left is not None:
+            return temp.left
+        elif temp.right is not None:
+            return temp.right
+        else:
+            temp = temp.next
+    return None
+
+```
 TC: O(N)
 SC: O(1)
+
+## Given a complete binary tree, count the number of nodes in it
+
+Complete binary tree - All the levels are completely filled, except the last level. If last level not completely filled, they must be left alligned
+
+

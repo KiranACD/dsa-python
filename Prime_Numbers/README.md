@@ -2,6 +2,26 @@
 
 Any positive number N such that it has only 2 factors, [1, N].
 
+Let us solve a puzzle before we look at other problems in this section. The solution to this puzzle sets the tone for the approach we have to take for solving the questions ahead.
+
+Consider N doors numbered from 1 to N. Initially all doors are closed. A person is standing in front of every door. 
+- The first person toggles the state of every single door starting from the first door till the Nth door. The sequence is 1, 2, 3, 4, 5,...., N
+- The second person toggles the state of every second door starting from the second door. 2, 4, 6, 8, 10,....
+- The third person toggles the state of every third door starting from the third door. 3, 6, 9, 12,......
+- This goes on till the person standing in front of the Nth door.
+
+Return the number of doors that will remain open after all the passes.
+
+When you change the state of the door even number of times - the doors retain their original state. When you change the state of the door odd number of times, the doors will be in the opposite state.
+
+The number of times a door's state is toggled is the number of factors of the prticular door number. As 2 has 2 factors, the door number 2's state will be toggled 2 times.
+
+Now, the question becomes, how many numbers from 1 to N have odd factors? The answer is the number of perfect squares between 1 and N. This is because only perfect squares have odd number of factors. 
+```
+def count_perfect_squares(n):
+    return int(n**0.5)
+```
+
 ## Find number of factors of N
 
 Brute Force approach: Check if i, where 1<=i<=N, is a factor of N.
@@ -90,22 +110,43 @@ TC < (N/2 + N/3 + N/5 + N/7 + ... + 1) < Nlog(N)
 (1/2 + 1/3 + 1/4 + 1/5 + 1/6 + ... + 1/N) = log(N) - log(2)
 
 TC: O(Nlog(log(N)))
-SC: O(N) 
+SC: O(N)
 
-Consider N doors numbered from 1 to N. Initially all doors are closed. A person is standing in front of every door. 
-- The first person toggles the state of every single door starting from the first door till the Nth door. The sequence is 1, 2, 3, 4, 5,...., N
-- The second person toggles the state of every second door starting from the second door. 2, 4, 6, 8, 10,....
-- The third person toggles the state of every third door starting from the third door. 3, 6, 9, 12,......
-- This goes on till the person standing in front of the Nth door.
+## Revisiting find the count of all divisors/factors of all numbers from 1 to N
 
-Return the number of doors that will remain open after all the passes.
-
-When you change the state of the door even number of times - the doors retain their original state. When you change the state of the door odd number of times, the doors will be in the opposite state.
-
-The number of times a door's state is toggled is the number of factors of the prticular door number. As 2 has 2 factors, the door number 2's state will be toggled 2 times.
-
-Now, the question becomes, how many numbers from 1 to N have odd factors? The answer is the number of perfect squares between 1 and N. This is because only perfect squares have odd number of factors. 
+Brute Force approach: Iterate over all numbers from 1 to N and find the number of factors for each.
 ```
-def count_perfect_squares(n):
-    return int(n**0.5)
+ans = []
+for i in range(1, N+1):
+    ans.append(count_factors(i))
+return ans
 ```
+TC: O(N*sqrt(N))
+SC: O(N)
+
+Approach 2: 
+```
+fact = [0 for _ in range(n)]
+for i in range(1, n+1):
+    for j in range(i, n+1, i):
+        fact[j] += 1
+return fact
+```
+TC: O(Nlog(N))
+SC: O(1)
+
+## Find all unique prime factors for all numbers from 1 to N
+
+Approach:
+```
+nprimes = [list() for _ in range(n+1)]
+for i in range(2, n+1):
+    if not nprimes[i]:
+        for j in range(i, n+1, i):
+            nprimes[j].append(i)
+return nprimes
+```
+TC: O(Nlog(N))
+SC: O(1)
+
+

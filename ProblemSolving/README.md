@@ -111,9 +111,14 @@ If N = 2^32, how many iterations will the above code do? Its 2^16. As the number
 
 To optimize lets make some observations.
 
-Consider N = 100. We know that sqrt(100) will lie in the range[1, 100]. Let us select i = 50 and check if i*i == N. If i*i > N, then no number above 50 will every be the answer. So we update the range to [1, 49].
+Consider N = 100. We know that sqrt(100) will lie in the range[1, 100]. Let us select i = 50 and check if i * i == N. If i * i > N, then no number above 50 will ever be the answer. So we update the range to [1, 49].
 
 We continue this till we reach the value that is the answer. In every step, the size of the array is getting halved. Hence, the total number of steps to be taken is logN with base 2.
+
+This technique is called Binary Search. We will explore binary search concepts indepth seperately.
+
+This write up shows the power of making observations in optimizing our code to achieve better time and space complexity.
+
 
 
 
